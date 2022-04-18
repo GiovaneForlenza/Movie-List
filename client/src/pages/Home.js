@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import axios from "axios";
+import { LinksContext } from "../context/LinksContext";
 function Home() {
-  const [popularMovies, setPopularMovies] = useState([]);
-  const MOVIE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face/";
-  const API_SEARCH_URL = "https://api.themoviedb.org/3/movie/";
-
+  const { popularMovies, setPopularMovies, MOVIE_POSTER_URL, API_SEARCH_URL } =
+    useContext(LinksContext);
   async function getMovieList() {
     let response = await axios({
       method: "get",
-      url: `${API_SEARCH_URL}popular?api_key=${process.env.API_KEY}&language=en-US&page=1`,
+      url: `${API_SEARCH_URL}popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`,
       json: true,
     });
     setPopularMovies(response.data.results);
