@@ -6,6 +6,7 @@ export const FilterContextProvider = (props) => {
   const [filtered, setFiltered] = useState("Popular Movies");
   const [search, setSearch] = useState("");
   const [urlEncodedSearch, setUrlEncodedSearch] = useState("");
+  let genresToSearch = [];
   return (
     <FilterContext.Provider
       value={{
@@ -15,6 +16,7 @@ export const FilterContextProvider = (props) => {
         setSearch,
         urlEncodedSearch,
         setUrlEncodedSearch,
+        genresToSearch,
       }}
     >
       {props.children}

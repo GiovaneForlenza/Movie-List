@@ -35,8 +35,8 @@ export const MovieContextProvider = (props) => {
       url: `${API_SEARCH_URL}/search/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${urlEncodedSearch}`,
       json: true,
     });
-    console.log(urlEncodedSearch);
     setMoviesToShow(response.data.results);
+    if (urlEncodedSearch === null) getMovieList();
   }
 
   return (

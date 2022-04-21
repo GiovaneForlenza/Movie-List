@@ -8,6 +8,8 @@ export const LinksContextProvider = (props) => {
   const PROVIDER_IMG_URL = "https://www.themoviedb.org/t/p/original/";
   const API_SEARCH_URL = "https://api.themoviedb.org/3";
   const GENRES_URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=`;
+  const GENRE_SEARCH_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=`;
+
   return (
     <LinksContext.Provider
       value={{
@@ -17,6 +19,7 @@ export const LinksContextProvider = (props) => {
         PROVIDER_IMG_URL,
         API_SEARCH_URL,
         GENRES_URL,
+        GENRE_SEARCH_URL,
       }}
     >
       {props.children}

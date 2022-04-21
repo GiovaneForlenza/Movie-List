@@ -3,7 +3,6 @@
   max-width: 400px;
   min-width: 300px;
   height: 100vh;
-  // border-right: 1px solid rgb(182, 182, 182);
   box-shadow: 5px 15px 50px 5px rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
@@ -14,6 +13,9 @@
   padding: 10px;
   box-sizing: border-box;
   .filtered-title-container {
+    &:hover {
+      cursor: pointer;
+    }
     margin: 20px;
     span {
       font-size: 25px;
@@ -53,13 +55,11 @@
     }
   }
   .filters-container {
-    // border: 1px solid #000;
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
     .genre-container {
       border: 1px solid rgb(109, 109, 109);
-      // box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.06);
       padding: 8px 15px;
       border-radius: 50px;
       margin: 5px;
@@ -67,10 +67,16 @@
       display: inline-block;
       font-size: 20px;
       color: black;
+      transition: all 0.2s;
       &:hover {
         cursor: pointer;
-        // background-color: #;
+        background-color: #00b4e4;
+        color: white;
       }
+    }
+    .genre-container.active {
+      background-color: #00b4e4;
+      color: white;
     }
   }
 }
