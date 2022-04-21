@@ -10,10 +10,12 @@ function MovieDisplay() {
 
   return (
     <div className="movie-display-container">
-      {moviesToShow.length > 0 &&
-        moviesToShow.map((movie, id) => {
-          return <MovieContainer movie={movie} id={id} key={id} />;
-        })}
+      <div className="movies">
+        {moviesToShow.length > 0 &&
+          moviesToShow.map((movie, id) => {
+            return <MovieContainer movie={movie} id={movie.id} key={id} />;
+          })}
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { MovieContext } from "../context/MoviesContext";
 import "../style/components/movie-container.scss";
 
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function MovieContainer({ movie, id }) {
   const { MOVIE_POSTER_URL, API_SEARCH_URL, PROVIDER_IMG_URL } =
@@ -12,6 +13,7 @@ function MovieContainer({ movie, id }) {
   const { movieGenres } = useContext(MovieContext);
   const [providers, setProviders] = useState([]);
   let genreCount = 0;
+  let providersCount = 0;
 
   function getGenreName(genreId) {
     if (movieGenres.length > 0) {
@@ -26,16 +28,16 @@ function MovieContainer({ movie, id }) {
       url: `${API_SEARCH_URL}${movie.id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`,
       json: true,
     });
-    // console.log(response.data.results["BR"].flatrate);
     if (response.data.results["BR"].flatrate !== undefined)
       setProviders(...providers, response.data.results["BR"].flatrate);
   }
+
   useEffect(() => {
     getProviderPhoto();
   }, []);
 
   return (
-    <div className="movie-container">
+    <Link className="movie-container" to={`/movie/${movie.id}`}>
       <div className="poster">
         <img src={`${MOVIE_POSTER_URL}${movie.poster_path}`} alt="" />
       </div>
@@ -54,21 +56,33 @@ function MovieContainer({ movie, id }) {
           })}
         </div>
         <div className="provider-container">
-          {providers !== undefined &&
-            providers.length > 0 &&
+          {providers.length > 0 ? (
             providers.map((provider, providerId) => {
-              return (
-                <div className="icon-container" key={providerId}>
-                  <img
-                    src={`${PROVIDER_IMG_URL}${provider.logo_path}`}
-                    alt=""
-                  />
-                </div>
-              );
-            })}
+              if (providersCount < 4) {
+                providersCount++;
+                return (
+                  <div className="icon-container" key={providerId}>
+                    {!provider.logo_path ? (
+                      <img
+                        src="https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg"
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        src={`${PROVIDER_IMG_URL}${provider.logo_path}`}
+                        alt=""
+                      />
+                    )}
+                  </div>
+                );
+              }
+            })
+          ) : (
+            <h4>No streaming available</h4>
+          )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
