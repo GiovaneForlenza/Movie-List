@@ -10,7 +10,7 @@ export const SearchAndQueriesContext = createContext();
 export const SearchAndQueriesContextProvider = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { currentPage, urlEncodedSearch, searchFor } =
+  const { currentPage, urlEncodedSearch, searchFor, genresToSearch, search } =
     useContext(FilterContext);
 
   const { API_SEARCH_URL, GENRES_URL } = useContext(LinksContext);
@@ -28,11 +28,23 @@ export const SearchAndQueriesContextProvider = (props) => {
   }
 
   async function loadMoreTitles() {
+    let queryUrl = `${API_SEARCH_URL}/${searchFor}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${currentPage}`;
+    if (genresToSearch.length > 0 || search != "") {
+      if (genresToSearch.length > 0) {
+        queryUrl += `&with_genres=${genresToSearch}`;
+      }
+      if (search != "") {
+        queryUrl += `&query=${urlEncodedSearch}`;
+      }
+    } else {
+      queryUrl = `${API_SEARCH_URL}/${searchFor}/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${currentPage}`;
+    }
     let response = await axios({
       method: "get",
-      url: `${API_SEARCH_URL}/${searchFor}/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=${currentPage}`,
+      url: queryUrl,
       json: true,
     });
+    console.log(queryUrl);
     if (response.data.page > 1) {
       let savedCatalog = [...new Set(catalogToShow)];
       response.data.results.map((result) => {

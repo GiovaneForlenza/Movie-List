@@ -88,7 +88,7 @@ function SideBar() {
             </div>
           );
         })}
-        <div className="reset-filters-container">Clear</div>
+        {/* <div className="reset-filters-container">Clear</div> */}
       </div>
     </div>
   );

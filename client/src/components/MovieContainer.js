@@ -28,9 +28,10 @@ function MovieContainer({ movie, id }) {
       url: `${API_SEARCH_URL}/movie/${movie.id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`,
       json: true,
     });
-    if (response.data.results["BR"])
-      if (response.data.results["BR"].flatrate !== undefined)
-        setProviders(...providers, response.data.results["BR"].flatrate);
+    console.log(response.data.results);
+    if (response.data.results["CA"])
+      if (response.data.results["CA"].flatrate !== undefined)
+        setProviders(...providers, response.data.results["CA"].flatrate);
   }
 
   useEffect(() => {
