@@ -7,6 +7,7 @@ import { MovieContext } from "../context/MoviesContext";
 import "../style/components/sidebar.scss";
 
 import axios from "axios";
+import { SearchAndQueriesContext } from "../context/SearchAndQueriesContext";
 
 function SideBar() {
   const {
@@ -16,9 +17,12 @@ function SideBar() {
     urlEncodedSearch,
     genresToSearch,
   } = useContext(FilterContext);
-  const { searchForMovieTitle, movieGenres, getMovieList, setMoviesToShow } =
-    useContext(MovieContext);
+  const { movieGenres, setCatalogToShow } = useContext(MovieContext);
   const { GENRE_SEARCH_URL } = useContext(LinksContext);
+
+  const { searchForMovieTitle, getFirstPagePopularCatalogList } = useContext(
+    SearchAndQueriesContext
+  );
 
   useEffect(() => {
     if (urlEncodedSearch.length > 0) searchForMovieTitle();
@@ -33,7 +37,6 @@ function SideBar() {
     } else {
       genresToSearch.push(genreId);
     }
-    console.log(genresToSearch);
     let queryGenres = "";
     genresToSearch.forEach((genre) => {
       queryGenres += genre + ",";
@@ -44,13 +47,15 @@ function SideBar() {
       url: `${GENRE_SEARCH_URL}${queryGenres}`,
       json: true,
     });
-    console.log(response.data);
-    setMoviesToShow(response.data.results);
+    setCatalogToShow(response.data.results);
   }
 
   return (
     <div className="sidebar-container">
-      <div className="filtered-title-container" onClick={getMovieList}>
+      <div
+        className="filtered-title-container"
+        onClick={getFirstPagePopularCatalogList}
+      >
         <span>{filtered}</span>
       </div>
       <div className="search-container">
@@ -62,7 +67,7 @@ function SideBar() {
             setSearch(e.target.value);
             let encoded = encodeURI(e.target.value);
             if (document.getElementById("side-search").value === "") {
-              getMovieList();
+              getFirstPagePopularCatalogList();
             } else {
               setUrlEncodedSearch(encoded);
             }
@@ -83,6 +88,7 @@ function SideBar() {
             </div>
           );
         })}
+        <div className="reset-filters-container">Clear</div>
       </div>
     </div>
   );

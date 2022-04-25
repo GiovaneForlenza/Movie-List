@@ -3,11 +3,14 @@ import { MovieContext } from "../context/MoviesContext";
 import MovieDisplay from "../components/MovieDisplay";
 import SideBar from "../components/SideBar";
 import "../style/pages/home.scss";
+import { SearchAndQueriesContext } from "../context/SearchAndQueriesContext";
 function Home() {
-  const { getMovieList, getMovieGenres } = useContext(MovieContext);
+  const { getFirstPagePopularCatalogList, getMovieGenres, moviePopularPage } =
+    useContext(SearchAndQueriesContext);
 
   useEffect(() => {
-    getMovieList();
+    console.clear();
+    getFirstPagePopularCatalogList();
     getMovieGenres();
     document.getElementById("side-search").value = "";
   }, []);

@@ -7,8 +7,8 @@ export const LinksContextProvider = (props) => {
   const MOVIE_POSTER_URL = "https://image.tmdb.org/t/p/w220_and_h330_face/";
   const PROVIDER_IMG_URL = "https://www.themoviedb.org/t/p/original/";
   const API_SEARCH_URL = "https://api.themoviedb.org/3";
-  const GENRES_URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=`;
-  const GENRE_SEARCH_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=`;
+  const GENRES_URL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`;
+  const GENRE_SEARCH_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&page=1&with_genres=`;
 
   return (
     <LinksContext.Provider

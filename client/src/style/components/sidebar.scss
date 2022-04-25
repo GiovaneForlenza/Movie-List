@@ -1,3 +1,5 @@
+@import "../global.scss";
+
 .sidebar-container {
   width: 28%;
   max-width: 400px;
@@ -70,12 +72,12 @@
       transition: all 0.2s;
       &:hover {
         cursor: pointer;
-        background-color: #00b4e4;
+        background-color: $color-blue-primary;
         color: white;
       }
     }
     .genre-container.active {
-      background-color: #00b4e4;
+      background-color: $color-blue-primary;
       color: white;
     }
   }

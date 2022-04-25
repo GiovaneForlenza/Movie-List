@@ -8,6 +8,7 @@ import { MovieContextProvider } from "./context/MoviesContext";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import MovieDetail from "./pages/MovieDetail";
 import { FilterContextProvider } from "./context/FilterContext";
+import { SearchAndQueriesContextProvider } from "./context/SearchAndQueriesContext";
 
 // require("dotenv").config();
 
@@ -16,16 +17,18 @@ function App() {
     <LinksContextProvider>
       <FilterContextProvider>
         <MovieContextProvider>
-          <Router>
-            <Switch>
-              <Route exact path="/">
-                {/* <div className="App"> */}
-                <Home />
-                {/* </div> */}
-              </Route>
-              <Route path="/movie/:id" component={MovieDetail}></Route>
-            </Switch>
-          </Router>
+          <SearchAndQueriesContextProvider>
+            <Router>
+              <Switch>
+                <Route exact path="/">
+                  {/* <div className="App"> */}
+                  <Home />
+                  {/* </div> */}
+                </Route>
+                <Route path="/movie/:id" component={MovieDetail}></Route>
+              </Switch>
+            </Router>
+          </SearchAndQueriesContextProvider>
         </MovieContextProvider>
       </FilterContextProvider>
     </LinksContextProvider>
