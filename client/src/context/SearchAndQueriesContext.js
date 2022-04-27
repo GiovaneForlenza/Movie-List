@@ -8,15 +8,18 @@ import { MovieContext } from "./MoviesContext";
 
 export const SearchAndQueriesContext = createContext();
 export const SearchAndQueriesContextProvider = (props) => {
-  const [searchQuery, setSearchQuery] = useState("");
-
   const { currentPage, urlEncodedSearch, searchFor, genresToSearch, search } =
     useContext(FilterContext);
 
-  const { API_SEARCH_URL, GENRES_URL } = useContext(LinksContext);
+  const { API_SEARCH_URL, MOVIE_GENRES_LIST } = useContext(LinksContext);
 
-  const { setCatalogToShow, setMovieGenres, catalogToShow } =
-    useContext(MovieContext);
+  const {
+    setCatalogToShow,
+    setMovieGenres,
+    catalogToShow,
+    providers,
+    setProviders,
+  } = useContext(MovieContext);
 
   async function getFirstPagePopularCatalogList() {
     let response = await axios({
@@ -60,7 +63,7 @@ export const SearchAndQueriesContextProvider = (props) => {
   async function getMovieGenres() {
     let response = await axios({
       method: "get",
-      url: `${GENRES_URL}&language=en-US`,
+      url: `${MOVIE_GENRES_LIST}&language=en-US`,
       json: true,
     });
     setMovieGenres(response.data.genres);
@@ -77,6 +80,18 @@ export const SearchAndQueriesContextProvider = (props) => {
       return;
     }
     setCatalogToShow(response.data.results);
+  }
+
+  async function getProviderPhoto(movie) {
+    let response = await axios({
+      method: "get",
+      url: `${API_SEARCH_URL}/movie/${movie.id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`,
+      json: true,
+    });
+    if (response !== undefined)
+      if (response.data.results["CA"] !== undefined)
+        if (response.data.results["CA"].flatrate !== undefined)
+          setProviders(...providers, response.data.results["CA"].flatrate);
   }
 
   useEffect(() => {
@@ -98,6 +113,7 @@ export const SearchAndQueriesContextProvider = (props) => {
         loadMoreTitles,
         getMovieGenres,
         searchForMovieTitle,
+        getProviderPhoto,
       }}
     >
       {props.children}

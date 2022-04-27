@@ -6,10 +6,11 @@ import "../style/components/movie-container.scss";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { SearchAndQueriesContext } from "../context/SearchAndQueriesContext";
 
 function MovieContainer({ movie, id }) {
-  const { MOVIE_POSTER_URL, API_SEARCH_URL, PROVIDER_IMG_URL } =
-    useContext(LinksContext);
+  const { MOVIE_POSTER_URL, PROVIDER_IMG_URL } = useContext(LinksContext);
+  const { getProviderPhoto } = useContext(SearchAndQueriesContext);
   const { movieGenres } = useContext(MovieContext);
   const [providers, setProviders] = useState([]);
   let genreCount = 0;
@@ -22,20 +23,8 @@ function MovieContainer({ movie, id }) {
     }
   }
 
-  async function getProviderPhoto() {
-    let response = await axios({
-      method: "get",
-      url: `${API_SEARCH_URL}/movie/${movie.id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}`,
-      json: true,
-    });
-    console.log(response.data.results);
-    if (response.data.results["CA"])
-      if (response.data.results["CA"].flatrate !== undefined)
-        setProviders(...providers, response.data.results["CA"].flatrate);
-  }
-
   useEffect(() => {
-    getProviderPhoto();
+    getProviderPhoto(movie);
   }, []);
 
   return (
